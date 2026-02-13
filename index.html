@@ -2019,28 +2019,21 @@
                                         }
                                         
                                         // Auto-scroll for Big Ad Banner Section
-                                                const bigAdCarousel = document.getElementById('big-ad-carousel');
-                                                let bigAdScrollPosition = 0;
+                                                const bigAdTrack = document.getElementById('big-ad-track');
+                                                let bigAdCurrentIndex = 0;
+                                                const bigAdTotalCards = 5;
                                                 let bigAdInterval;
                                         
+                                                // Add smooth transition
+                                                if (bigAdTrack) {
+                                                    bigAdTrack.style.transition = 'transform 0.8s ease-in-out';
+                                                }
+                                        
                                                 function autoScrollBigAd() {
-                                                    if (bigAdCarousel) {
-                                                        const containerWidth = bigAdCarousel.clientWidth;
-                                                        const maxScroll = bigAdCarousel.scrollWidth - containerWidth;
-                                                        
-                                                        if (bigAdScrollPosition >= maxScroll) {
-                                                            bigAdScrollPosition = 0;
-                                                        } else {
-                                                            bigAdScrollPosition += containerWidth;
-                                                            if (bigAdScrollPosition > maxScroll) {
-                                                                bigAdScrollPosition = maxScroll;
-                                                            }
-                                                        }
-                                                        
-                                                        bigAdCarousel.scrollTo({
-                                                            left: bigAdScrollPosition,
-                                                            behavior: 'smooth'
-                                                        });
+                                                    if (bigAdTrack) {
+                                                        bigAdCurrentIndex = (bigAdCurrentIndex + 1) % bigAdTotalCards;
+                                                        const translateX = -(bigAdCurrentIndex * 100);
+                                                        bigAdTrack.style.transform = `translateX(${translateX}%)`;
                                                     }
                                                 }
                                         
@@ -2048,6 +2041,7 @@
                                                 bigAdInterval = setInterval(autoScrollBigAd, 5000);
                                         
                                                 // Pause on hover
+                                                const bigAdCarousel = document.getElementById('big-ad-carousel');
                                                 if (bigAdCarousel) {
                                                     bigAdCarousel.addEventListener('mouseenter', () => {
                                                         clearInterval(bigAdInterval);
